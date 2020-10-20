@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.LOOP));
     _bunyi = AudioCache(
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
-        //_read();
+        _read();
         startJam();
         
         //print(listJadwal);
@@ -100,16 +100,30 @@ class _MyAppState extends State<MyApp> {
 
 //   print(listmapjadwal);
 // }
+
+_save() async {
+  final directory = await getApplicationDocumentsDirectory();
+  final file = File('${directory.path}/my_file.txt');
+  final teks = "Data Masih Kosong";
+  await file.writeAsString(teks);
+}
+
 _read() async {
   //try {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/my_file.txt');
-    String text = await file.readAsString();
-    List listtext = jsonDecode(text);
-    for(var i in listtext){
-     Map z = i;
-     listJadwal.add(z);
-   }
+    print(await file.exists());
+    if (await file.exists() == false){
+      _save();
+    }else{
+      String text = await file.readAsString();
+      List listtext = jsonDecode(text);
+      for(var i in listtext){
+      Map z = i;
+      listJadwal.add(z);
+    }   
+    }  
+}
       //    for (var i in listJadwal) {
       //   if (hari == "Mon") {
       //     if(jam == i['Mon']['jam']){
@@ -178,7 +192,7 @@ _read() async {
   //  catch (e) {
   // //   print("Couldn't read file");
   //  }
-}
+
   Future<void> _backgroundServiceNative() async {
     try {
       String result = await platform.invokeMethod(KEY_NATIVE, {

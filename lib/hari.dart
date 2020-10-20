@@ -45,17 +45,23 @@ _read() async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/my_file.txt');
     String text = await file.readAsString();
-    List listtext = jsonDecode(text);
-    for(var i in listtext){
-     Map z = i;
-     listJadwal.add(z);
-   }
+    if(text.contains("Data Masih Kosong")){
+      return;
+    }else{
+      List listtext = jsonDecode(text);
+      for(var i in listtext){
+        Map z = i;
+        listJadwal.add(z);
+      }
+    }
+      
+}
     //print(listJadwal);
   //} 
   // catch (e) {
   //   print("Couldn't read file");
   // }
-}
+
 
   //List<Map> listmapjadwal = [];
   
@@ -127,6 +133,7 @@ _read() async {
                       FlatButton(
                         onPressed: () {
                           DatePicker.showTimePicker(context,
+                          //showSecondsColumn: false,
                               showTitleActions: true, onChanged: (date) {
                             print('change $date in time zone ' +
                                 date.timeZoneOffset.inHours.toString());
