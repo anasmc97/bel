@@ -22,7 +22,6 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  
   final List<Map> listJadwal;
   final String hari;
   // This widget is the root of your application.
@@ -30,10 +29,12 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
-const CHANNEL = "backgroundServices.channel";
-const KEY_NATIVE = "BackGroundService";
+
+//TODO : PLATFORM CHANNEL STUFF
+const CHANNEL = "com.embundev.bel/bgServiceWithNotif";
+const KEY_NATIVE = "getBgServiceWithNotif";
+
 class _MyAppState extends State<MyApp> {
-  
   static const platform = const MethodChannel(CHANNEL);
   List<Map> listmapjadwal = [];
   Jadwal list;
@@ -55,11 +56,10 @@ class _MyAppState extends State<MyApp> {
   var jam = '';
   var hari = '';
   String dropdownValue = 'Bel Masuk';
-  
-  List<Map> listJadwal = [];
-  
-  //List<Map<Map, dynamic>> listmap;
 
+  List<Map> listJadwal = [];
+
+  //List<Map<Map, dynamic>> listmap;
 
   @override
   void initState() {
@@ -72,14 +72,13 @@ class _MyAppState extends State<MyApp> {
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.LOOP));
     _bunyi = AudioCache(
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
-        _read();
-        startJam();
-        
-        //print(listJadwal);
-    
-    
+    _read();
+    startJam();
+
+    //print(listJadwal);
+
     //_panggil();
-    
+
     //belbunyiotomatis();
     // if(widget.listJadwal == null){
     //   listJadwal = [];
@@ -101,107 +100,110 @@ class _MyAppState extends State<MyApp> {
 //   print(listmapjadwal);
 // }
 
-_save() async {
-  final directory = await getApplicationDocumentsDirectory();
-  final file = File('${directory.path}/my_file.txt');
-  final teks = "Data Masih Kosong";
-  await file.writeAsString(teks);
-}
+  _save() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/my_file.txt');
+    final teks = "Data Masih Kosong";
+    await file.writeAsString(teks);
+  }
 
-_read() async {
-  //try {
+  _read() async {
+    //try {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/my_file.txt');
     print(await file.exists());
-    if (await file.exists() == false){
+    if (await file.exists() == false) {
       _save();
-    }else{
+    } else {
       String text = await file.readAsString();
       List listtext = jsonDecode(text);
-      for(var i in listtext){
-      Map z = i;
-      listJadwal.add(z);
-    }   
-    }  
-}
-      //    for (var i in listJadwal) {
-      //   if (hari == "Mon") {
-      //     if(jam == i['Mon']['jam']){
-      //     if (i['Mon']['bel'] == "Bel Masuk"){
-      //       player = await _bunyi.play('audio/3.mp3');
-      //     }else if (i['Mon']['bel'] == "Bel Istirahat") {
-      //       player = await _bunyi.play('audio/2.mp3');
-      //     } else if (i['Mon']['bel'] == "Bel Pulang") {
-      //       player = await _bunyi.play('audio/1.mp3');
-      //     }
-      //    }
-      //   }else if (hari == "Tue"){
-      //     if(jam == i['Tue']['jam']){
-      //     if (i['Tue']['bel'] == "Bel Masuk"){
-      //       player = await _bunyi.play('audio/3.mp3');
-      //     }else if (i['Tue']['bel'] == "Bel Istirahat") {
-      //       player = await _bunyi.play('audio/2.mp3');
-      //     } else if (i['Tue']['bel'] == "Bel Pulang") {
-      //       player = await _bunyi.play('audio/1.mp3');
-      //     }
-      //    }
-      //   }else if (hari == "Wed"){
-      //     if(jam == i['Wed']['jam']){
-      //     if (i['Wed']['bel'] == "Bel Masuk"){
-      //       player = await _bunyi.play('audio/3.mp3');
-      //     }else if (i['Wed']['bel'] == "Bel Istirahat") {
-      //       player = await _bunyi.play('audio/2.mp3');
-      //     } else if (i['Wed']['bel'] == "Bel Pulang") {
-      //       player = await _bunyi.play('audio/1.mp3');
-      //     }
-      //    }
-      //   }else if (hari == "Thu"){
-      //     if(jam == i['Thu']['jam']){
-      //     if (i['Thu']['bel'] == "Bel Masuk"){
-      //       player = await _bunyi.play('audio/3.mp3');
-      //     }else if (i['Thu']['bel'] == "Bel Istirahat") {
-      //       player = await _bunyi.play('audio/2.mp3');
-      //     } else if (i['Thu']['bel'] == "Bel Pulang") {
-      //       player = await _bunyi.play('audio/1.mp3');
-      //     }
-      //    }
-      //   }else if (hari == "Fri"){
-      //     if(jam == i['Fri']['jam']){
-      //     if (i['Fri']['bel'] == "Bel Masuk"){
-      //       player = await _bunyi.play('audio/3.mp3');
-      //     }else if (i['Fri']['bel'] == "Bel Istirahat") {
-      //       player = await _bunyi.play('audio/2.mp3');
-      //     } else if (i['Fri']['bel'] == "Bel Pulang") {
-      //       player = await _bunyi.play('audio/1.mp3');
-      //     }
-      //    }
-      //   }else if (hari == "Sat"){
-      //     if(jam == i['Sat']['jam']){
-      //     if (i['Sat']['bel'] == "Bel Masuk"){
-      //       player = await _bunyi.play('audio/3.mp3');
-      //     }else if (i['Sat']['bel'] == "Bel Istirahat") {
-      //       player = await _bunyi.play('audio/2.mp3');
-      //     } else if (i['Sat']['bel'] == "Bel Pulang") {
-      //       player = await _bunyi.play('audio/1.mp3');
-      //     }
-      //    }
-      //   }
-      // }
-    //print(listJadwal);
-  //} 
+      for (var i in listtext) {
+        Map z = i;
+        listJadwal.add(z);
+      }
+    }
+  }
+  //    for (var i in listJadwal) {
+  //   if (hari == "Mon") {
+  //     if(jam == i['Mon']['jam']){
+  //     if (i['Mon']['bel'] == "Bel Masuk"){
+  //       player = await _bunyi.play('audio/3.mp3');
+  //     }else if (i['Mon']['bel'] == "Bel Istirahat") {
+  //       player = await _bunyi.play('audio/2.mp3');
+  //     } else if (i['Mon']['bel'] == "Bel Pulang") {
+  //       player = await _bunyi.play('audio/1.mp3');
+  //     }
+  //    }
+  //   }else if (hari == "Tue"){
+  //     if(jam == i['Tue']['jam']){
+  //     if (i['Tue']['bel'] == "Bel Masuk"){
+  //       player = await _bunyi.play('audio/3.mp3');
+  //     }else if (i['Tue']['bel'] == "Bel Istirahat") {
+  //       player = await _bunyi.play('audio/2.mp3');
+  //     } else if (i['Tue']['bel'] == "Bel Pulang") {
+  //       player = await _bunyi.play('audio/1.mp3');
+  //     }
+  //    }
+  //   }else if (hari == "Wed"){
+  //     if(jam == i['Wed']['jam']){
+  //     if (i['Wed']['bel'] == "Bel Masuk"){
+  //       player = await _bunyi.play('audio/3.mp3');
+  //     }else if (i['Wed']['bel'] == "Bel Istirahat") {
+  //       player = await _bunyi.play('audio/2.mp3');
+  //     } else if (i['Wed']['bel'] == "Bel Pulang") {
+  //       player = await _bunyi.play('audio/1.mp3');
+  //     }
+  //    }
+  //   }else if (hari == "Thu"){
+  //     if(jam == i['Thu']['jam']){
+  //     if (i['Thu']['bel'] == "Bel Masuk"){
+  //       player = await _bunyi.play('audio/3.mp3');
+  //     }else if (i['Thu']['bel'] == "Bel Istirahat") {
+  //       player = await _bunyi.play('audio/2.mp3');
+  //     } else if (i['Thu']['bel'] == "Bel Pulang") {
+  //       player = await _bunyi.play('audio/1.mp3');
+  //     }
+  //    }
+  //   }else if (hari == "Fri"){
+  //     if(jam == i['Fri']['jam']){
+  //     if (i['Fri']['bel'] == "Bel Masuk"){
+  //       player = await _bunyi.play('audio/3.mp3');
+  //     }else if (i['Fri']['bel'] == "Bel Istirahat") {
+  //       player = await _bunyi.play('audio/2.mp3');
+  //     } else if (i['Fri']['bel'] == "Bel Pulang") {
+  //       player = await _bunyi.play('audio/1.mp3');
+  //     }
+  //    }
+  //   }else if (hari == "Sat"){
+  //     if(jam == i['Sat']['jam']){
+  //     if (i['Sat']['bel'] == "Bel Masuk"){
+  //       player = await _bunyi.play('audio/3.mp3');
+  //     }else if (i['Sat']['bel'] == "Bel Istirahat") {
+  //       player = await _bunyi.play('audio/2.mp3');
+  //     } else if (i['Sat']['bel'] == "Bel Pulang") {
+  //       player = await _bunyi.play('audio/1.mp3');
+  //     }
+  //    }
+  //   }
+  // }
+  //print(listJadwal);
+  //}
   //  catch (e) {
   // //   print("Couldn't read file");
   //  }
 
-  Future<void> _backgroundServiceNative() async {
-    try {
-      String result = await platform.invokeMethod(KEY_NATIVE, {
-      });
-      print(result);
-    } on PlatformException catch (e) {
-      print(e);
+  //TODO : Implementasi Platform Channel untuk pakai servis bg dengan notifikasi
+  Future<void> _getBgServiceWithNotif() async {
+    if (Platform.isAndroid) {
+      try {
+        String result = await platform.invokeMethod(KEY_NATIVE);
+        debugPrint(result);
+      } on PlatformException catch (e) {
+        debugPrint(e.toString());
+      }
     }
   }
+
   void startJam() {
     Timer.periodic(new Duration(seconds: 1), (_) {
       var tgl = new DateTime.now();
@@ -237,72 +239,72 @@ _read() async {
   }
 
   void belbunyiotomatis() async {
-      //_read();
+    //_read();
 
-      for (var i in listJadwal) {
-        if (hari == "Mon") {
-          if(jam == i['Mon']['jam']){
-          if (i['Mon']['bel'] == "Bel Masuk"){
+    for (var i in listJadwal) {
+      if (hari == "Mon") {
+        if (jam == i['Mon']['jam']) {
+          if (i['Mon']['bel'] == "Bel Masuk") {
             player = await _bunyi.play('audio/3.mp3');
-          }else if (i['Mon']['bel'] == "Bel Istirahat") {
+          } else if (i['Mon']['bel'] == "Bel Istirahat") {
             player = await _bunyi.play('audio/2.mp3');
           } else if (i['Mon']['bel'] == "Bel Pulang") {
             player = await _bunyi.play('audio/1.mp3');
           }
-         }
-        }else if (hari == "Tue"){
-          if(jam == i['Tue']['jam']){
-          if (i['Tue']['bel'] == "Bel Masuk"){
+        }
+      } else if (hari == "Tue") {
+        if (jam == i['Tue']['jam']) {
+          if (i['Tue']['bel'] == "Bel Masuk") {
             player = await _bunyi.play('audio/3.mp3');
-          }else if (i['Tue']['bel'] == "Bel Istirahat") {
+          } else if (i['Tue']['bel'] == "Bel Istirahat") {
             player = await _bunyi.play('audio/2.mp3');
           } else if (i['Tue']['bel'] == "Bel Pulang") {
             player = await _bunyi.play('audio/1.mp3');
           }
-         }
-        }else if (hari == "Wed"){
-          if(jam == i['Wed']['jam']){
-          if (i['Wed']['bel'] == "Bel Masuk"){
+        }
+      } else if (hari == "Wed") {
+        if (jam == i['Wed']['jam']) {
+          if (i['Wed']['bel'] == "Bel Masuk") {
             player = await _bunyi.play('audio/3.mp3');
-          }else if (i['Wed']['bel'] == "Bel Istirahat") {
+          } else if (i['Wed']['bel'] == "Bel Istirahat") {
             player = await _bunyi.play('audio/2.mp3');
           } else if (i['Wed']['bel'] == "Bel Pulang") {
             player = await _bunyi.play('audio/1.mp3');
           }
-         }
-        }else if (hari == "Thu"){
-          if(jam == i['Thu']['jam']){
-          if (i['Thu']['bel'] == "Bel Masuk"){
+        }
+      } else if (hari == "Thu") {
+        if (jam == i['Thu']['jam']) {
+          if (i['Thu']['bel'] == "Bel Masuk") {
             player = await _bunyi.play('audio/3.mp3');
-          }else if (i['Thu']['bel'] == "Bel Istirahat") {
+          } else if (i['Thu']['bel'] == "Bel Istirahat") {
             player = await _bunyi.play('audio/2.mp3');
           } else if (i['Thu']['bel'] == "Bel Pulang") {
             player = await _bunyi.play('audio/1.mp3');
           }
-         }
-        }else if (hari == "Fri"){
-          if(jam == i['Fri']['jam']){
-          if (i['Fri']['bel'] == "Bel Masuk"){
+        }
+      } else if (hari == "Fri") {
+        if (jam == i['Fri']['jam']) {
+          if (i['Fri']['bel'] == "Bel Masuk") {
             player = await _bunyi.play('audio/3.mp3');
-          }else if (i['Fri']['bel'] == "Bel Istirahat") {
+          } else if (i['Fri']['bel'] == "Bel Istirahat") {
             player = await _bunyi.play('audio/2.mp3');
           } else if (i['Fri']['bel'] == "Bel Pulang") {
             player = await _bunyi.play('audio/1.mp3');
           }
-         }
-        }else if (hari == "Sat"){
-          if(jam == i['Sat']['jam']){
-          if (i['Sat']['bel'] == "Bel Masuk"){
+        }
+      } else if (hari == "Sat") {
+        if (jam == i['Sat']['jam']) {
+          if (i['Sat']['bel'] == "Bel Masuk") {
             player = await _bunyi.play('audio/3.mp3');
-          }else if (i['Sat']['bel'] == "Bel Istirahat") {
+          } else if (i['Sat']['bel'] == "Bel Istirahat") {
             player = await _bunyi.play('audio/2.mp3');
           } else if (i['Sat']['bel'] == "Bel Pulang") {
             player = await _bunyi.play('audio/1.mp3');
           }
-         }
         }
       }
-   }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -461,7 +463,9 @@ _read() async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => TabBarDemo(hari: "Mon",)));
+                                        builder: (context) => TabBarDemo(
+                                              hari: "Mon",
+                                            )));
                               },
                               child: Card(
                                 child: Container(
@@ -475,7 +479,9 @@ _read() async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => TabBarDemo(hari: "Tue",)));
+                                        builder: (context) => TabBarDemo(
+                                              hari: "Tue",
+                                            )));
                               },
                               child: Card(
                                 child: Container(
@@ -489,7 +495,9 @@ _read() async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => TabBarDemo(hari: "Wed",)));
+                                        builder: (context) => TabBarDemo(
+                                              hari: "Wed",
+                                            )));
                               },
                               child: Card(
                                 child: Container(
@@ -503,7 +511,9 @@ _read() async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => TabBarDemo(hari: "Thu", )));
+                                        builder: (context) => TabBarDemo(
+                                              hari: "Thu",
+                                            )));
                               },
                               child: Card(
                                 child: Container(
@@ -517,7 +527,9 @@ _read() async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => TabBarDemo(hari: "Fri",)));
+                                        builder: (context) => TabBarDemo(
+                                              hari: "Fri",
+                                            )));
                               },
                               child: Card(
                                 child: Container(
@@ -531,7 +543,9 @@ _read() async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => TabBarDemo(hari: "Sat",)));
+                                        builder: (context) => TabBarDemo(
+                                              hari: "Sat",
+                                            )));
                               },
                               child: Card(
                                 child: Container(
@@ -593,7 +607,7 @@ _read() async {
                                   color: Colors.grey,
                                   elevation: 2,
                                   onPressed: () {
-                                    _backgroundServiceNative();
+                                    _getBgServiceWithNotif();
                                     //MinimizeApp.minimizeApp();
                                   },
                                   child: new Text(
