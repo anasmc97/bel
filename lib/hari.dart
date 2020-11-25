@@ -52,7 +52,7 @@ class HomeState extends State<Home> {
           onPressed: () async {
             var contact = await navigateToEntryForm(context, null, widget.hari);
             //var contact = _editButtonSheet(context,null);
-            if (contact.hari != null) addContact(contact);
+            if (contact.hari != "kosong") addContact(contact);
           },
         ),
       ),
