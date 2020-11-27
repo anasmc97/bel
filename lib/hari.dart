@@ -43,15 +43,16 @@ class HomeState extends State<Home> {
       },
           child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.grey[800],
           title: Text('Daftar Data-Data'),
         ),
         body: createListView(),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          backgroundColor: Colors.grey[800],
+          child: Icon(Icons.add,),
           tooltip: 'Tambah Data',
           onPressed: () async {
             var contact = await navigateToEntryForm(context, null, widget.hari);
-            //var contact = _editButtonSheet(context,null);
             if (contact.hari != "kosong") addContact(contact);
           },
         ),
@@ -80,15 +81,13 @@ class HomeState extends State<Home> {
     return ListView.builder(
       itemCount: count,
       itemBuilder: (BuildContext context, int index) {
-        // var test = contactList[index].jam.split(":");
-        // time = test[0]+":"+test[1];
         return Card(
           color: Colors.white,
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.red,
-              child: Icon(Icons.access_alarm),
+              backgroundColor: Colors.grey[350],
+              child: Icon(Icons.access_alarm, color: Colors.black,),
             ),
             title: Text(this.contactList[index].jam.toString(), style: textStyle,),
             subtitle: Text(this.contactList[index].bunyi),
@@ -98,10 +97,6 @@ class HomeState extends State<Home> {
                 deleteContact(contactList[index]);
               },   
             ),
-            // onTap: () async {
-            //   var contact = await navigateToEntryForm(context, this.contactList[index], widget.hari);
-            //   if (contact != null) editContact(contact);
-            // },
           ),
         );
       },
@@ -110,13 +105,6 @@ class HomeState extends State<Home> {
   //buat contact
   void addContact(Jadwal object) async {
     int result = await dbHelper.insert(object);
-    if (result > 0) {
-      updateListView();
-    }
-  }
-    //edit contact
-  void editContact(Jadwal object) async {
-    int result = await dbHelper.update(object);
     if (result > 0) {
       updateListView();
     }

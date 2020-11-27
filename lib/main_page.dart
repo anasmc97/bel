@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,8 +19,8 @@ class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
-const CHANNEL = "backgroundServices.channel";
-const KEY_NATIVE = "BackGroundService";
+const CHANNEL = "com.embundev.bel/bgServiceWithNotif";
+const KEY_NATIVE = "getBgServiceWithNotif";
 class _MainPageState extends State<MainPage> {
   
   static const platform = const MethodChannel(CHANNEL);
@@ -57,13 +59,14 @@ class _MainPageState extends State<MainPage> {
         startJam();
   }
       
-  Future<void> _backgroundServiceNative() async {
-    try {
-      String result = await platform.invokeMethod(KEY_NATIVE, {
-      });
-      print(result);
-    } on PlatformException catch (e) {
-      print(e);
+  Future<void> _getBgServiceWithNotif() async {
+    if (Platform.isAndroid) {
+      try {
+        String result = await platform.invokeMethod(KEY_NATIVE);
+        debugPrint(result);
+      } on PlatformException catch (e) {
+        debugPrint(e.toString());
+      }
     }
   }
    startJam() async {
@@ -283,7 +286,7 @@ class _MainPageState extends State<MainPage> {
                                     color: Colors.grey,
                                     elevation: 2,
                                     onPressed: () {
-                                      _backgroundServiceNative();
+                                      _getBgServiceWithNotif();
                                     },
                                     child: new Text(
                                       "Minimize App",
