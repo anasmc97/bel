@@ -12,6 +12,7 @@ import 'package:bel/jadwal.dart';
 import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:minimize_app/minimize_app.dart';
 
 
 class MainPage extends StatefulWidget {
@@ -287,6 +288,7 @@ class _MainPageState extends State<MainPage> {
                                     elevation: 2,
                                     onPressed: () {
                                       _getBgServiceWithNotif();
+                                      MinimizeApp.minimizeApp();
                                     },
                                     child: new Text(
                                       "Minimize App",
